@@ -842,6 +842,7 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
     top: 55px;
     left: 12.5%;
     right: 12.5%;
+    z-index: 0;
     height: 2px;
     border-radius: 2px;
     background: rgba(255, 255, 255, .1);
@@ -856,6 +857,7 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
 }
 .step {
   position: relative;
+  z-index: 1;
   padding: 32px 24px 28px;
   border-radius: var(--radius);
   background: rgba(255, 255, 255, .03);
@@ -877,7 +879,7 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
   border: 1px solid rgba(255, 255, 255, .16);
   box-shadow: 0 0 0 8px var(--navy-900);
 }
-.step:hover .icon-badge { background: var(--accent); color: #fff; border-color: transparent; }
+.step:hover .icon-badge { background: var(--accent); color: #fff; border-color: transparent; box-shadow: 0 0 0 8px transparent, 0 10px 24px -8px var(--accent-glow); }
 .step-num {
   position: absolute;
   top: 14px;
@@ -1495,6 +1497,32 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
   animation: ping 2.4s var(--ease) infinite;
 }
 body.nav-open .wa-float { opacity: 0; pointer-events: none; }
+
+/* ---------- Aviso de cookies (LGPD) ---------- */
+.consent {
+  position: fixed;
+  right: max(16px, env(safe-area-inset-right));
+  bottom: max(16px, env(safe-area-inset-bottom));
+  z-index: 150;
+  width: min(420px, calc(100vw - 32px));
+  padding: 20px;
+  border-radius: var(--radius);
+  color: var(--text-light);
+  background-color: rgba(2, 14, 38, .82);
+  font-size: .9rem;
+  line-height: 1.5;
+  opacity: 0;
+  translate: 0 24px;
+  transition: opacity .4s var(--ease), translate .5s var(--ease);
+}
+.consent.is-visible { opacity: 1; translate: none; }
+.consent.is-leaving { opacity: 0; translate: 0 24px; }
+.consent p { color: var(--muted-light); }
+.consent-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
+@media (max-width: 639px) {
+  .consent { width: auto; left: 16px; }
+  .consent-actions .btn { flex: 1; }
+}
 
 /* ---------- Animações de entrada (scroll) ---------- */
 /* A entrada usa `translate` (independente de `transform`), então hover, tilt e

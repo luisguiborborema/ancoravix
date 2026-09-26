@@ -214,6 +214,7 @@
         c.classList.toggle('is-active', active);
         c.setAttribute('aria-pressed', String(active));
       });
+      ga('portfolio_filter', { filter: f });
       $$('.g-item', gallery).forEach((item) => {
         item.classList.toggle('is-hidden', f !== 'all' && item.dataset.cat !== f);
       });
@@ -265,6 +266,23 @@
     });
   }
 
+  /* ---------- Analytics: eventos de conversão (ver js/analytics.js) ---------- */
+  const ga = (name, params) => window.track?.(name, params);
+  const sectionOf = (el) => el.closest('section[id]')?.id
+    || (el.closest('.site-header') ? 'header' : el.closest('.site-footer') ? 'footer' : 'botao-flutuante');
+
+  document.addEventListener('click', (e) => {
+    const a = e.target.closest('a[href]');
+    if (!a) return;
+    const href = a.getAttribute('href');
+    const params = { link_location: sectionOf(a), link_text: (a.textContent.trim() || a.getAttribute('aria-label') || '').slice(0, 80) };
+    if (href.includes('wa.me/')) ga('whatsapp_click', params);
+    else if (href.startsWith('mailto:')) ga('email_click', params);
+    else if (href.startsWith('tel:')) ga('phone_click', params);
+    else if (/instagram\.com|facebook\.com/.test(href)) ga('social_click', { ...params, network: new URL(href).hostname.replace('www.', '') });
+    else if (href.includes('google.com/maps')) ga('map_click', params);
+  });
+
   /* ---------- Formulário → WhatsApp ---------- */
   const form = $('[data-contact-form]');
   const status = $('[data-form-status]');
@@ -312,6 +330,7 @@
     ].filter((l) => l !== null);
 
     window.open(waLink(lines.join('\n')), '_blank', 'noopener');
+    ga('generate_lead', { form_name: 'contato', service: data.servico, method: 'whatsapp' });
     status.className = 'form-status is-ok';
     status.textContent = 'Tudo certo! Abrimos o WhatsApp com sua mensagem — é só enviar.';
     form.reset();
