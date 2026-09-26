@@ -187,7 +187,8 @@
     });
   }, { rootMargin: '-45% 0px -50% 0px' });
   navLinks.forEach((a) => {
-    const section = $(a.getAttribute('href'));
+    const href = a.getAttribute('href');
+    const section = href.startsWith('#') ? $(href) : null; // em outras páginas o menu aponta para ./#secao
     if (section) sectionIO.observe(section);
   });
 

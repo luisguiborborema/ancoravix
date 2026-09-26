@@ -25,15 +25,17 @@
   <meta property="og:site_name" content="Ancoravix">
   <meta property="og:title" content="Ancoravix | Ancoragem predial e serviços em altura no ES">
   <meta property="og:description" content="Ancoragem predial e industrial, revisão anual e manutenção de fachadas com equipe certificada NR-35 na Grande Vitória.">
-  <meta property="og:url" content="https://ancoravix.com.br/">
-  <meta property="og:image" content="https://ancoravix.com.br/assets/img/og-cover.jpg">
+  <!-- Imagem de preview servida pelo GitHub durante a validação na Vercel.
+       No lançamento em ancoravix.com.br, troque og:image e twitter:image por https://ancoravix.com.br/assets/img/og-cover.jpg -->
+  <meta property="og:image" content="https://raw.githubusercontent.com/luisguiborborema/ancoravix/main/assets/img/og-cover.jpg">
+  <meta property="og:image:type" content="image/jpeg">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
   <meta property="og:image:alt" content="Ancoravix — A solução ideal em serviços em altura">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Ancoravix | Ancoragem predial e serviços em altura no ES">
   <meta name="twitter:description" content="Ancoragem predial e industrial, revisão anual e manutenção de fachadas com equipe certificada NR-35.">
-  <meta name="twitter:image" content="https://ancoravix.com.br/assets/img/og-cover.jpg">
+  <meta name="twitter:image" content="https://raw.githubusercontent.com/luisguiborborema/ancoravix/main/assets/img/og-cover.jpg">
 
   <link rel="icon" href="assets/img/favicon.png" type="image/png">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -911,7 +913,11 @@
 
     <div class="container footer-bottom">
       <p>© <span data-year>2026</span> Ancoravix — Engenharia e Segurança do Trabalho. Todos os direitos reservados.</p>
-      <a href="#inicio" class="to-top">Voltar ao topo <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      <div class="footer-legal">
+        <a href="politica-de-privacidade.html">Política de privacidade</a>
+        <button type="button" class="link-button" data-consent-open hidden>Preferências de cookies</button>
+        <a href="#inicio" class="to-top">Voltar ao topo <svg class="icon"><use href="#i-arrow-right"/></svg></a>
+      </div>
     </div>
   </footer>
 

@@ -10,6 +10,7 @@
 
   const GA_MEASUREMENT_ID = ''; // ex.: 'G-ABC123XYZ9'
   const CONSENT_KEY = 'ancoravix-consent'; // 'granted' | 'denied'
+  const PRIVACY_URL = 'politica-de-privacidade.html';
 
   const enabled = /^G-[A-Z0-9]+$/.test(GA_MEASUREMENT_ID);
 
@@ -18,6 +19,17 @@
   };
   const saveConsent = (value) => {
     try { localStorage.setItem(CONSENT_KEY, value); } catch { /* navegação privada */ }
+  };
+  // Ao recusar, remove cookies do GA que possam ter sido gravados antes
+  const clearGaCookies = () => {
+    const domain = location.hostname.replace(/^www\./, '');
+    document.cookie.split(';').map((c) => c.split('=')[0].trim())
+      .filter((name) => name === '_ga' || name.startsWith('_ga_'))
+      .forEach((name) => {
+        [`domain=.${domain}`, `domain=${domain}`, ''].forEach((d) => {
+          document.cookie = `${name}=; Max-Age=0; path=/; ${d}`;
+        });
+      });
   };
 
   window.dataLayer = window.dataLayer || [];
@@ -50,10 +62,9 @@
   s.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
   document.head.appendChild(s);
 
-  if (stored) return;
-
-  // Aviso de cookies (só aparece enquanto não houver escolha registrada)
+  // Aviso de cookies
   const showBanner = () => {
+    document.querySelector('.consent')?.remove();
     const banner = document.createElement('div');
     banner.className = 'consent glass';
     banner.setAttribute('role', 'dialog');
@@ -61,7 +72,7 @@
     banner.setAttribute('aria-label', 'Preferências de cookies');
     banner.innerHTML = `
       <p>Usamos cookies de análise (Google Analytics) para entender como o site é usado e melhorar sua experiência.
-      Nenhum dado é usado para publicidade.</p>
+      Nenhum dado é usado para publicidade. <a href="${PRIVACY_URL}">Política de privacidade</a></p>
       <div class="consent-actions">
         <button type="button" class="btn btn-glass btn-sm" data-consent="denied">Recusar</button>
         <button type="button" class="btn btn-primary btn-sm" data-consent="granted">Aceitar</button>
@@ -71,6 +82,7 @@
       if (!choice) return;
       saveConsent(choice);
       gtag('consent', 'update', { analytics_storage: choice });
+      if (choice === 'denied') clearGaCookies();
       banner.classList.add('is-leaving');
       setTimeout(() => banner.remove(), 400);
     });
@@ -78,6 +90,15 @@
     requestAnimationFrame(() => banner.classList.add('is-visible'));
   };
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', showBanner);
-  else showBanner();
+  const init = () => {
+    // Links "Preferências de cookies" (ocultos enquanto o GA não estiver ativo)
+    document.querySelectorAll('[data-consent-open]').forEach((el) => {
+      el.hidden = false;
+      el.addEventListener('click', (e) => { e.preventDefault(); showBanner(); });
+    });
+    if (!stored) showBanner();
+  };
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();

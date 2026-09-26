@@ -2,6 +2,18 @@
 
 Site estático (HTML + CSS + JS puros, sem build). Basta enviar os arquivos para a hospedagem.
 
+## Publicar na Vercel (validação)
+
+1. Em https://vercel.com → *Add New → Project* → importe `luisguiborborema/ancoravix`.
+2. Framework: **Other**. Build command e output directory: deixe em branco. *Deploy*.
+
+O `vercel.json` adiciona `noindex` em qualquer endereço `*.vercel.app` (o Google não indexa a versão de teste)
+e o `.vercelignore` impede que prompts, README e `.htaccess` fiquem públicos.
+Durante a validação, a imagem de preview de links (`og:image`) é servida pelo GitHub.
+
+**No lançamento em ancoravix.com.br:** troque `og:image`/`twitter:image` para
+`https://ancoravix.com.br/assets/img/og-cover.jpg` em `index.html` e `politica-de-privacidade.html`.
+
 ## Rodar localmente
 
 ```bash
@@ -69,3 +81,10 @@ Eventos enviados: `whatsapp_click`, `generate_lead`, `email_click`, `phone_click
   [Bing Webmaster Tools](https://www.bing.com/webmasters) e envie o `sitemap.xml` (o Bing alimenta o ChatGPT Search e o Copilot).
 - Crie/atualize o **Perfil da Empresa no Google** com o mesmo nome, endereço e telefone do site.
 - Quando o WordPress em `/site/` for desativado, ative o redirecionamento 301 no `.htaccess`.
+
+### Política de privacidade (LGPD)
+
+`politica-de-privacidade.html` é um **modelo** — revise com o jurídico e preencha os campos destacados em amarelo
+(CNPJ, encarregado de dados e prazo de retenção). O rodapé tem os links "Política de privacidade" e
+"Preferências de cookies" (este aparece só quando o GA está ativo). No GA4, ajuste a retenção de dados para
+14 meses em *Administrador → Coleta e modificação de dados → Retenção de dados*.

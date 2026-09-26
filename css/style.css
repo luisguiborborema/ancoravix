@@ -1467,6 +1467,95 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 .to-top .icon { transform: rotate(-90deg); transition: transform .35s var(--ease); }
 .to-top:hover .icon { transform: rotate(-90deg) translateX(3px); }
 
+.footer-legal { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 22px; }
+.footer-legal a:not(.to-top), .link-button { color: var(--muted-light); transition: color .25s; }
+.footer-legal a:hover, .link-button:hover { color: var(--accent-2); }
+.link-button {
+  padding: 0;
+  border: 0;
+  background: none;
+  font: inherit;
+  text-decoration: none;
+}
+[hidden] { display: none !important; }
+.site-footer-compact { padding-top: 0; }
+.site-footer-compact .footer-bottom { margin-top: 0; border-top: 0; padding-top: 28px; }
+
+/* ---------- Página legal (política de privacidade) ---------- */
+.legal-hero {
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  padding: calc(var(--header-h) + clamp(56px, 8vw, 96px)) 0 clamp(48px, 6vw, 72px);
+  color: var(--text-light);
+  background:
+    radial-gradient(ellipse 60% 80% at 100% 0%, rgba(26, 98, 240, .3), transparent 70%),
+    var(--navy-900);
+}
+.legal-hero .section-title { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+.legal-hero .section-lead { color: var(--muted-light); }
+.legal-hero .kicker { color: var(--accent-2); }
+.legal-updated { margin-top: 20px; font-size: .88rem; color: var(--muted-light); }
+.legal { padding-top: clamp(48px, 6vw, 80px); }
+.legal-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 40px; }
+@media (min-width: 1000px) {
+  .legal-grid { grid-template-columns: 240px minmax(0, 1fr); gap: 72px; align-items: start; }
+  .legal-toc { position: sticky; top: calc(var(--header-h) + 24px); }
+}
+.legal-toc {
+  padding: 22px 24px;
+  border-radius: var(--radius);
+  background: var(--surface);
+  border: 1px solid var(--line-light);
+  font-size: .92rem;
+}
+.legal-toc p {
+  margin-bottom: 12px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+.legal-toc ol { display: grid; gap: 8px; list-style: decimal; padding-left: 20px; color: var(--muted-dark); }
+.legal-toc a { color: var(--text-dark); transition: color .2s; }
+.legal-toc a:hover { color: var(--accent); }
+
+.prose { max-width: 74ch; color: #2A3548; font-size: 1.02rem; }
+.prose h2 {
+  margin: 56px 0 16px;
+  font-size: clamp(1.4rem, 2.4vw, 1.75rem);
+  letter-spacing: -.02em;
+  color: var(--text-dark);
+  scroll-margin-top: calc(var(--header-h) + 24px);
+}
+.prose h2:first-child { margin-top: 0; }
+.prose h3 { margin: 28px 0 10px; font-size: 1.12rem; color: var(--text-dark); }
+.prose p + p, .prose p + ul, .prose ul + p { margin-top: 14px; }
+.prose ul { display: grid; gap: 10px; margin-top: 12px; }
+.prose ul li { position: relative; padding-left: 22px; }
+.prose ul li::before {
+  content: "";
+  position: absolute;
+  left: 4px;
+  top: .65em;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+.prose a { color: var(--accent); text-decoration: underline; text-underline-offset: 3px; text-decoration-thickness: 1px; }
+.prose a.btn { color: #fff; text-decoration: none; }
+.prose strong { color: var(--text-dark); }
+.prose code { padding: 2px 6px; border-radius: 6px; background: rgba(11, 19, 36, .06); font-size: .9em; }
+.prose mark.todo { padding: 1px 6px; border-radius: 6px; background: #FFE58A; color: #3D2E00; font-weight: 600; }
+.table-wrap { margin-top: 16px; overflow-x: auto; border-radius: var(--radius-sm); border: 1px solid var(--line-light); background: var(--surface); }
+.prose table { width: 100%; min-width: 560px; border-collapse: collapse; font-size: .93rem; }
+.prose th, .prose td { padding: 14px 16px; text-align: left; vertical-align: top; border-bottom: 1px solid var(--line-light); }
+.prose th { font-family: var(--font-display); font-weight: 600; color: var(--text-dark); background: var(--bg-light); }
+.prose tr:last-child td { border-bottom: 0; }
+.legal-back { margin-top: 56px; }
+
 /* ---------- WhatsApp flutuante ---------- */
 .wa-float {
   position: fixed;
@@ -1518,6 +1607,7 @@ body.nav-open .wa-float { opacity: 0; pointer-events: none; }
 .consent.is-visible { opacity: 1; translate: none; }
 .consent.is-leaving { opacity: 0; translate: 0 24px; }
 .consent p { color: var(--muted-light); }
+.consent p a { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
 .consent-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 14px; }
 @media (max-width: 639px) {
   .consent { width: auto; left: 16px; }
