@@ -218,7 +218,7 @@ p { text-wrap: pretty; }
 }
 .btn-dark:hover { background: var(--navy-700); }
 
-.btn-sm { padding: .65em 1.1em; font-size: .9rem; }
+.btn-sm { padding: .65em 1.1em; font-size: .9rem; min-height: 42px; }
 .btn-lg { padding: 1em 1.7em; font-size: 1.05rem; }
 .btn-block { width: 100%; }
 
@@ -254,6 +254,7 @@ body.nav-open .site-header { transform: none; }
   align-items: center;
   gap: 12px;
   margin-right: auto;
+  min-height: 44px;
   position: relative;
   z-index: 2;
 }
@@ -796,8 +797,9 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
   font-family: var(--font-display);
   font-weight: 600;
   color: var(--accent);
-  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
-  padding-bottom: 2px;
+  min-height: 44px;
+  margin-bottom: -8px;
+  background: linear-gradient(currentColor, currentColor) 0 calc(50% + .8em) / 0 2px no-repeat;
   transition: background-size .4s var(--ease);
 }
 .link-arrow .icon { transition: transform .4s var(--ease); }
@@ -808,8 +810,17 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
   display: grid;
   gap: 16px;
   margin-top: 20px;
-  grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
 }
+@media (min-width: 520px) and (max-width: 819px) {
+  .services-mini { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .services-mini > :last-child { grid-column: 1 / -1; }
+}
+@media (min-width: 820px) { .services-mini { grid-template-columns: repeat(6, minmax(0, 1fr)); } }
+@media (min-width: 820px) and (max-width: 1179px) {
+  .services-mini > * { grid-column: span 2; }
+  .services-mini > :nth-child(4), .services-mini > :nth-child(5) { grid-column: span 3; }
+}
+@media (min-width: 1180px) { .services-mini { grid-template-columns: repeat(5, minmax(0, 1fr)); } }
 @media (min-width: 1024px) { .services-mini { margin-top: 24px; } }
 .mini-card {
   padding: 24px;
@@ -988,7 +999,9 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  margin-top: 16px;
+  min-height: 44px;
+  margin-top: 6px;
+  margin-bottom: -10px;
   font-size: .9rem;
   font-weight: 600;
   color: var(--accent-2);
@@ -1133,11 +1146,11 @@ body.nav-open .nav-toggle .icon-close { opacity: 1; transform: none; }
   font-weight: 600;
   font-size: .95rem;
   line-height: 1.25;
-  background: linear-gradient(180deg, transparent, rgba(2, 10, 30, .88));
+  background: linear-gradient(180deg, transparent, rgba(2, 10, 30, .55) 35%, rgba(2, 10, 30, .92));
 }
 .g-caption small {
   font-family: var(--font-body);
-  font-size: .7rem;
+  font-size: .75rem;
   font-weight: 600;
   letter-spacing: .12em;
   text-transform: uppercase;
@@ -1296,8 +1309,8 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 
 /* ---------- Contato ---------- */
 .contact { background: var(--navy-950); }
-.contact-grid { display: grid; gap: 48px; align-items: start; }
-@media (min-width: 1000px) { .contact-grid { grid-template-columns: 1fr 1fr; gap: 72px; } }
+.contact-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: 48px; align-items: start; }
+@media (min-width: 1000px) { .contact-grid { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 72px; } }
 
 .contact-list { display: grid; margin-top: 36px; }
 .contact-list li {
@@ -1311,7 +1324,7 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 .contact-list small {
   display: block;
   margin-bottom: 4px;
-  font-size: .72rem;
+  font-size: .75rem;
   font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
@@ -1365,6 +1378,8 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 }
 .field textarea { resize: vertical; min-height: 120px; }
 .field select {
+  min-width: 0;
+  text-overflow: ellipsis;
   appearance: none;
   -webkit-appearance: none;
   padding-right: 44px;
@@ -1437,7 +1452,7 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 .footer-brand .brand-logo { height: 32px; }
 .footer-brand .footer-tagline {
   margin-top: 10px;
-  font-size: .72rem;
+  font-size: .75rem;
   letter-spacing: .16em;
   text-transform: uppercase;
   color: var(--muted-light);
@@ -1511,7 +1526,7 @@ details[open] .acc-icon { transform: rotate(135deg); background: var(--accent); 
 }
 .legal-toc p {
   margin-bottom: 12px;
-  font-size: .72rem;
+  font-size: .75rem;
   font-weight: 600;
   letter-spacing: .14em;
   text-transform: uppercase;
