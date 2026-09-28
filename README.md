@@ -45,10 +45,26 @@ As imagens atuais são placeholders do Unsplash. Para usar fotos próprias, salv
 | Produtos | Troque o `<svg>` de cada `.product-art` por `<img src="assets/img/produtos/...">` |
 | Compartilhamento | Substitua `assets/img/og-cover.jpg` (1200×630) mantendo o nome |
 
+## Vídeos
+
+Os originais (150–400 MB) ficam em `midia-originais/videos/`, **fora do Git e da Vercel**.
+Para gerar as versões web, rode `bash scripts/processar-videos.sh` (requer `ffmpeg`):
+
+| Arquivo | Uso | Tamanho |
+|---|---|---|
+| `assets/video/hero-drone-mobile.mp4` | Fundo do topo **no celular** (loop vai-e-volta, sem som). No desktop fica a foto. | ~2,3 MB |
+| `assets/video/obra-drone-*.mp4` | Galeria de obras: tocam sem som quando visíveis e abrem no lightbox | ~2 MB cada |
+| `assets/video/institucional-ancoravix.mp4` | Seção "Veja a Ancoravix em ação" — com som, carrega só ao clicar | ~15 MB |
+
+Os vídeos não carregam para quem usa "economia de dados" ou prefere menos movimento.
+
 ## WhatsApp
 
 O número principal fica em `js/main.js` (`WHATSAPP_NUMBER`). Todos os links com `data-wa` recebem esse número
 e a mensagem pronta definida em `data-wa-msg`. O formulário de contato monta a mensagem e abre o WhatsApp.
+
+Identidade visual: logo "Ancoravix Reformas Prediais" (azul-marinho #00235A + dourado #F2B233). Versões em alta
+resolução, com fundo transparente, em `assets/brand/` (não publicadas).
 
 ## SEO, buscas por IA e Analytics
 

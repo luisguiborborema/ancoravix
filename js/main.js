@@ -192,11 +192,13 @@
     if (section) sectionIO.observe(section);
   });
 
-  /* ---------- Vídeo do hero (opcional) ---------- */
+  /* ---------- Vídeo do hero: vertical no celular, horizontal no desktop (se houver) ---------- */
   const video = $('.hero-video');
   const saveData = navigator.connection?.saveData;
-  if (video?.dataset.src && !reducedMotion && !saveData && matchMedia('(min-width: 768px)').matches) {
-    video.src = video.dataset.src;
+  const isMobile = matchMedia('(max-width: 767px)').matches;
+  const heroSrc = isMobile ? video?.dataset.srcMobile : video?.dataset.src;
+  if (heroSrc && !reducedMotion && !saveData) {
+    video.src = heroSrc;
     video.addEventListener('canplay', () => {
       video.classList.add('is-ready');
       video.play().catch(() => {});
@@ -217,15 +219,30 @@
       });
       ga('portfolio_filter', { filter: f });
       $$('.g-item', gallery).forEach((item) => {
-        item.classList.toggle('is-hidden', f !== 'all' && item.dataset.cat !== f);
+        item.classList.toggle('is-hidden', f !== 'all' && !item.dataset.cat.split(' ').includes(f));
       });
     });
   });
+
+  /* ---------- Portfólio: vídeos das miniaturas ---------- */
+  const tileVideos = $$('.g-video video', gallery || document);
+  if (tileVideos.length && !reducedMotion && !saveData && 'IntersectionObserver' in window) {
+    const vio = new IntersectionObserver((entries) => {
+      entries.forEach(({ target: v, isIntersecting }) => {
+        if (isIntersecting) {
+          if (!v.src) { v.src = v.dataset.src; v.addEventListener('playing', () => v.closest('.g-btn').classList.add('is-playing'), { once: true }); }
+          v.play().catch(() => {});
+        } else v.pause();
+      });
+    }, { threshold: 0.35 });
+    tileVideos.forEach((v) => vio.observe(v));
+  }
 
   /* ---------- Portfólio: lightbox ---------- */
   const lb = $('[data-lightbox]');
   const lbImg = $('[data-lb-img]');
   const lbCap = $('[data-lb-caption]');
+  const lbVideo = $('[data-lb-video]');
   let lbItems = [];
   let lbIndex = 0;
 
@@ -233,8 +250,20 @@
     lbIndex = (i + lbItems.length) % lbItems.length;
     const btn = lbItems[lbIndex];
     const img = $('img', btn);
-    lbImg.src = btn.dataset.full || img.src;
-    lbImg.alt = img.alt;
+    const isVideo = Boolean(btn.dataset.video);
+    lbVideo.pause();
+    lbImg.hidden = isVideo;
+    lbVideo.hidden = !isVideo;
+    if (isVideo) {
+      lbVideo.poster = img.src;
+      lbVideo.src = btn.dataset.video;
+      lbVideo.setAttribute('aria-label', img.alt);
+      lbVideo.play().catch(() => {});
+    } else {
+      lbVideo.removeAttribute('src');
+      lbImg.src = btn.dataset.full || img.src;
+      lbImg.alt = img.alt;
+    }
     const cap = $('.g-caption', btn);
     const cat = $('small', cap)?.textContent.trim();
     const title = [...cap.childNodes].filter((n) => n.nodeType === Node.TEXT_NODE).map((n) => n.textContent).join('').trim();
@@ -250,6 +279,7 @@
       lb.showModal();
     });
     $('[data-lb-close]', lb).addEventListener('click', () => lb.close());
+    lb.addEventListener('close', () => lbVideo.pause());
     $('[data-lb-prev]', lb).addEventListener('click', () => showLb(lbIndex - 1));
     $('[data-lb-next]', lb).addEventListener('click', () => showLb(lbIndex + 1));
     lb.addEventListener('click', (e) => { if (e.target === lb) lb.close(); });
@@ -265,6 +295,19 @@
       if (Math.abs(dx) > 50) showLb(lbIndex + (dx < 0 ? 1 : -1));
       touchX = null;
     });
+  }
+
+  /* ---------- Vídeo institucional ---------- */
+  const inst = $('[data-inst-video]');
+  const instPlay = $('[data-inst-play]');
+  if (inst && instPlay) {
+    instPlay.addEventListener('click', () => {
+      inst.controls = true;
+      inst.closest('.video-frame').classList.add('is-playing');
+      inst.play().catch(() => {});
+      ga('video_play', { video_title: 'institucional' });
+    });
+    inst.addEventListener('ended', () => ga('video_complete', { video_title: 'institucional' }));
   }
 
   /* ---------- Analytics: eventos de conversão (ver js/analytics.js) ---------- */
